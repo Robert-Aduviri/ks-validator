@@ -41,7 +41,9 @@ def get_error_log(lines):
 
         except:
             error_log.append(f"Unknown error in Line {idx+1}: {line}")
-            
+    
+    if len(error_log) == 0:
+        error_log = ['OK']
     return error_log
 
 
