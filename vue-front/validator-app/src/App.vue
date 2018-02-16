@@ -3,7 +3,7 @@
     <div class="container">
       <h1>KS - File validator</h1>
       <textarea v-model="text" placeholder="Paste the lyrics here..." />
-      <v-btn color="error" large=true v-on:click="validate(text)"><span>Validate</span></v-btn>
+      <v-btn color="error" v-on:click="validate(text)"><span>Validate</span></v-btn>
       <textarea v-model="error_log" />
     </div>    
   </div>
