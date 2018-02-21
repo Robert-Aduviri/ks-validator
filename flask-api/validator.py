@@ -34,6 +34,9 @@ def get_error_log(lines):
                     (('INSTRUMENTAL' in prev_line and 'tropicalzone' not in line) or
                         ('tropicalzone' in prev_line)):
                     error_log.append(f"Line {idx+1}: 'INSTRUMENTAL' frame is finishing too late or the next line is starting too early")
+                
+                if prev_end_time >= start_time and '.....' in prev_line and '.....' not in line:
+                    error_log.append(f"Line {idx+1}: '.....' frame is finishing too late or the next line is starting too early")
 
                 # Validate {\kf0}
                 prev_end_time = str2time(line.split(',')[2])
