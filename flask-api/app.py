@@ -22,4 +22,6 @@ def check():
     return make_response(dumps(error_log))
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    context = ('/home/ks/KS-server/inter.crt', 
+               '/home/ks/KS-server/karaokesmart.co.key')
+    app.run(host='0.0.0.0', debug=True, ssl_context=context, threaded=True)
