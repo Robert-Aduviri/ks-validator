@@ -51,19 +51,19 @@ def get_error_log(lines):
                 kfs = [int(re.sub(r'\{\\kf(-?\w+)\}', r'\1', word)) \
                                 for word in re.findall(r'\{\\kf(-?\w+)\}', text)]
                 if any(kf <= 0 for kf in kfs):
-                    error_log.append(f"Line {idx+1}:\t kf <= 0")
+                    error_log.append(f"Line {idx+1}: kf <= 0")
                 
                 # Validate painting time
                 if len(kfs) > 0:
                     painting_start_time = start_time + kfs[0] / 100
                     if painting_start_time < painting_time:
-                        error_log.append(f"Line {idx+1}:\t painting is starting too early ({time2str(painting_start_time)} < {time2str(painting_time)} of previous line)")
+                        error_log.append(f"Line {idx+1}: painting is starting too early ({time2str(painting_start_time)} < {time2str(painting_time)} of previous line)")
                     painting_time = start_time + sum(kf / 100 for kf in kfs)
 
                 prev_end_time = str2time(line.split(',')[2])
                 prev_line = line
 
-        except MemoryError:
+        except:
             error_log.append(f"Unknown error in Line {idx+1}: {line}")
     
     if len(error_log) == 0:
