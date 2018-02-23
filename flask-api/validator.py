@@ -7,6 +7,7 @@ def str2time(text):
 def get_error_log(lines):
     error_log = []
     prev_end_time = 0
+    painting_time = 0
     prev_line = ''
     for idx, line in enumerate(lines):
         try:
@@ -39,6 +40,19 @@ def get_error_log(lines):
                     error_log.append(f"Line {idx+1}: '.....' frame is finishing too late or the next line is starting too early")
 
                 # Validate {\kf0}
+                text = ','.join(line.split(',')[9:])
+                kfs = [int(re.sub(r'\{\\kf(-?\w+)\}', r'\1', word)) \
+                                for word in re.findall(r'\{\\kf(-?\w+)\}', text)]
+                if any(kf <= 0 for kf in kfs):
+                    error_log.append(f"Line {idx+1}:\t kf <= 0")
+                
+                # Validate painting time
+                if len(kfs) > 0:
+                    painting_start_time = start_time + kfs[0] / 100
+                    if painting_start_time < painting_time:
+                        error_log.append(f"Line {idx+1}:\t painting is starting too early ({time2str(painting_start_time)} < {time2str(painting_time)} of previous line)")
+                    painting_time = start_time + sum(kf / 100 for kf in kfs)
+
                 prev_end_time = str2time(line.split(',')[2])
                 prev_line = line
 
