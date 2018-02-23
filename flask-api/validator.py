@@ -4,6 +4,13 @@ def str2time(text):
     h, m, s = text.split(':')
     return int(h) * 3600 + int(m) * 60 + float(s)
 
+def time2str(number):
+    h = int(number // 3600)
+    m = int((number % 3600) // 60)
+    s = int((number % 3600) % 60)
+    f = float((number % 3600) % 60 - s) * 100
+    return f'{h}:{m:02}:{s:02}.{f:02.0f}'
+
 def get_error_log(lines):
     error_log = []
     prev_end_time = 0
