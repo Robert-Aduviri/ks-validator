@@ -56,7 +56,7 @@ def get_error_log(lines):
                 prev_end_time = str2time(line.split(',')[2])
                 prev_line = line
 
-        except:
+        except MemoryError:
             error_log.append(f"Unknown error in Line {idx+1}: {line}")
     
     if len(error_log) == 0:
