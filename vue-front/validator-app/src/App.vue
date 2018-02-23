@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     validate: function (text) {
-      axios.post("https://104.41.58.159:5000/check", {
+      axios.post("https://validador.karaokesmart.co:5000/check", {
           'lines': text.split('\n')
         })
         .then((response) => {
