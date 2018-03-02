@@ -70,5 +70,17 @@ def get_error_log(lines):
         error_log = ['OK']
     return error_log
 
+def get_lyrics(lines):
+    pattern = re.compile(r'\{(.*?)\}', re.UNICODE)
+    lyrics = []
+    for idx, line in enumerate(lines):
+        if line.startswith('Dialogue'):
+            text = ','.join(line.split(',')[9:])
+            text = pattern.sub('', text).strip()
+            lyrics.append(f"Line {idx+1}: {text}")
+    return lyrics
+
+        
+
 
         
