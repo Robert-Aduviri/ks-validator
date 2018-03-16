@@ -9,6 +9,7 @@
       <div class="buttons">
         <v-btn color="error" v-on:click="validate(text)"><span>Validate</span></v-btn>
         <v-btn color="error" v-on:click="get_lyrics(text)"><span>Get Lyrics</span></v-btn>
+        <v-btn color="error" v-on:click="clear_text()"><span>Clear</span></v-btn>
       </div>
       <textarea v-model="output" v-bind:style="{ 'word-spacing': word_spacing }"/>
     </div>    
@@ -29,8 +30,9 @@ export default {
   },
   methods: {
     validate: function (text) {
-      axios.post("https://validador.karaokesmart.co:5000/check", {
-      // axios.post("http://0.0.0.0:5000/check", {
+      // axios.post("https://ks-validator.azurewebsites.net/api/Validate?code=MlrwaaQBaKW9a0JKPQaOA9w2c16Y6aUbPVTndNbijiauRXadrE3okQ==", {
+      // axios.post("https://validador.karaokesmart.co:5000/check", {
+      axios.post("http://0.0.0.0:5000/check", {
         'lines': text.split('\n')
       })
       .then((response) => {
@@ -39,14 +41,19 @@ export default {
       });
     },
     get_lyrics: function(text) {
-      axios.post("https://validador.karaokesmart.co:5000/lyrics", {
-      // axios.post("http://0.0.0.0:5000/lyrics", {
+      // axios.post("https://ks-validator.azurewebsites.net/api/GetLyrics?code=MZ5wxVXXppISk8lgWUOLfZB0qrtvMl9hZGDptUG4eRMkjATuJ2xahQ==", {
+      // axios.post("https://validador.karaokesmart.co:5000/lyrics", {
+      axios.post("http://0.0.0.0:5000/lyrics", {
         'lines': text.split('\n')
       })
       .then((response) => {
         this.output = response.data.join('\n');
         console.log(response)
       })
+    },
+    clear_text: function() {
+      this.text = "";
+      this.output = "";      
     }
   }
 }

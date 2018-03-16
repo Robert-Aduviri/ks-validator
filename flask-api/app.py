@@ -32,6 +32,6 @@ def lyrics():
     return make_response(dumps(lyrics))
 
 if __name__ == "__main__":
-    context = ('/home/ks/KS-server/inter.crt', 
-               '/home/ks/KS-server/karaokesmart.co.key')  
-    app.run(host='0.0.0.0', debug=True, ssl_context=context, threaded=True)
+    # context = ('/home/ks/KS-server/inter.crt', 
+    #            '/home/ks/KS-server/karaokesmart.co.key')   ssl_context=context, 
+    app.run(host='0.0.0.0', debug=True, threaded=True)

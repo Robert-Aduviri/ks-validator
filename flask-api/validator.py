@@ -11,17 +11,45 @@ def time2str(number):
     f = float((number % 3600) % 60 - s) * 100
     return f'{h}:{m:02}:{s:02}.{f:02.0f}'
 
+def get_header():
+    return '''[Script Info]
+Title: KS example file
+ScriptType: v4.00+
+WrapStyle: 0
+PlayResX: 1080
+PlayResY: 720
+ScaledBorderAndShadow: yes
+Video Aspect Ratio: 0
+Video Zoom: 6
+Video Position: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Start,Panton,72,&H00FFFFFF,&H000000FF,,,0,0,0,0,100,100,0,0,0,0,0,8,0,0,250,1
+Style: End,Panton,60,&H00FFFFFF,&H000000FF,,,0,0,0,0,100,100,0,0,0,0,0,8,0,0,100,1
+Style: Karaoke0,Panton,80,&H000000FF,&H00FFFFFF,,,0,0,0,0,100,100,0,0,0,0,0,8,0,0,250,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text'''.split('\n')
+
 def get_error_log(lines):
+    print(get_header())
     error_log = []
     prev_end_time = 0
     painting_time = 0
     prev_line = ''
     for idx, line in enumerate(lines):
-        try:
-            # Validate Style
-            if line.startswith('Style') and \
+        try:            
+            if idx == 1 and 'Title:' not in line:
+                error_log.append(f"Line {idx+1}: incorrect header format")
+            elif line.startswith('Style') and \
                 ('panton' not in line.lower() or 'arial' in line.lower()):
                 error_log.append(f"Line {idx+1}: incorrect style")
+            elif idx < 19 and line.strip() != get_header()[idx].strip():
+                error_log.append(f"Line {idx+1}: incorrect header format")
+
+            # Validate Style
+            
             
             if line.startswith('Dialogue'):
                 start_time = str2time(line.split(',')[1])
