@@ -40,6 +40,7 @@ def get_error_log(lines):
     prev_line = ''
     for idx, line in enumerate(lines):
         try:            
+            # Validate Header
             if idx == 1 and 'Title:' not in line:
                 error_log.append(f"Line {idx+1}: incorrect header format")
             elif line.startswith('Style') and \
@@ -47,9 +48,6 @@ def get_error_log(lines):
                 error_log.append(f"Line {idx+1}: incorrect style")
             elif idx < 19 and line.strip() != get_header()[idx].strip():
                 error_log.append(f"Line {idx+1}: incorrect header format")
-
-            # Validate Style
-            
             
             if line.startswith('Dialogue'):
                 start_time = str2time(line.split(',')[1])
